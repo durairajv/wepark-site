@@ -37,33 +37,53 @@ export default function Solution() {
               {/* Animated stack SVG — larger, more detailed */}
               <div className="absolute right-6 top-6 opacity-[0.45] group-hover:opacity-[0.70] transition-opacity duration-1000">
                 <svg width="180" height="200" viewBox="0 0 180 200" fill="none">
+                  {/* Ground platform */}
                   <rect x="20" y="160" width="140" height="5" rx="2.5" fill="#FF6B00" />
+                  {/* Lifting platform */}
                   <rect x="20" y="80" width="140" height="5" rx="2.5" fill="#FF6B00">
                     <animate attributeName="y" values="155;80;80;155" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                   </rect>
+                  {/* Pillars */}
                   <rect x="25" y="80" width="3" height="80" fill="#FF6B00" opacity="0.5">
                     <animate attributeName="height" values="0;80;80;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                   </rect>
                   <rect x="152" y="80" width="3" height="80" fill="#FF6B00" opacity="0.5">
                     <animate attributeName="height" values="0;80;80;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                   </rect>
-                  {/* Upper car */}
-                  <rect x="45" y="58" width="90" height="18" rx="6" fill="#FF6B00">
-                    <animate attributeName="y" values="134;58;58;134" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                  </rect>
-                  <rect x="60" y="47" width="60" height="14" rx="5" fill="#FF6B00" opacity="0.7">
-                    <animate attributeName="y" values="123;47;47;123" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                  </rect>
-                  <circle cx="65" cy="76" r="5" fill="#FF6B00">
-                    <animate attributeName="cy" values="152;76;76;152" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                  </circle>
-                  <circle cx="115" cy="76" r="5" fill="#FF6B00">
-                    <animate attributeName="cy" values="152;76;76;152" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                  </circle>
-                  {/* Lower car */}
-                  <g opacity="0.3">
-                    <rect x="45" y="134" width="90" height="18" rx="6" fill="#FF6B00" />
-                    <rect x="60" y="123" width="60" height="14" rx="5" fill="#FF6B00" />
+                  {/* Upper car — sporty coupe (like logo upper car) */}
+                  <g>
+                    <animateTransform attributeName="transform" type="translate" values="0,76;0,0;0,0;0,76" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                    {/* Body */}
+                    <path d="M40,74 L40,66 C40,63 42,61 45,61 L133,61 C136,61 138,64 138,67 L138,74 Z" fill="#FF6B00" />
+                    {/* Cabin — coupe roofline sloping to rear */}
+                    <path d="M54,61 L62,46 C64,43 67,42 70,42 L98,42 C104,42 110,44 115,48 L126,61 Z" fill="#FF6B00" opacity="0.8" />
+                    {/* Windshield */}
+                    <path d="M58,60 L65,47 L86,47 L86,60 Z" fill="#000" opacity="0.3" />
+                    {/* Rear window — sloped like coupe */}
+                    <path d="M90,60 L90,47 L108,49 L120,60 Z" fill="#000" opacity="0.3" />
+                    {/* Wheel arches */}
+                    <path d="M48,74 C48,68 53,64 58,64 C63,64 68,68 68,74" fill="#000" opacity="0.15" />
+                    <path d="M110,74 C110,68 115,64 120,64 C125,64 130,68 130,74" fill="#000" opacity="0.15" />
+                    {/* Wheels */}
+                    <circle cx="58" cy="75" r="8" fill="#FF6B00" /><circle cx="58" cy="75" r="5.5" fill="#000" opacity="0.3" /><circle cx="58" cy="75" r="2" fill="#FF6B00" opacity="0.5" />
+                    <circle cx="120" cy="75" r="8" fill="#FF6B00" /><circle cx="120" cy="75" r="5.5" fill="#000" opacity="0.3" /><circle cx="120" cy="75" r="2" fill="#FF6B00" opacity="0.5" />
+                    {/* Headlight */}
+                    <path d="M134,63 L138,65 L138,69 L135,68 Z" fill="#FFA" opacity="0.7" />
+                  </g>
+                  {/* Lower car — hatchback (like logo lower car) */}
+                  <g opacity="0.35">
+                    <path d="M40,154 L40,143 C40,140 42,138 45,138 L133,138 C136,138 138,141 138,144 L138,154 Z" fill="#FF6B00" />
+                    {/* Cabin — hatchback upright rear */}
+                    <path d="M56,138 L65,124 C67,121 70,120 73,120 L105,120 C108,120 110,121 111,123 L118,138 Z" fill="#FF6B00" opacity="0.8" />
+                    {/* Windshield */}
+                    <path d="M60,137 L67,126 L86,126 L86,137 Z" fill="#000" opacity="0.3" />
+                    {/* Rear window — upright hatchback */}
+                    <path d="M90,137 L90,126 L106,124 L114,137 Z" fill="#000" opacity="0.3" />
+                    {/* Wheel arches */}
+                    <path d="M48,154 C48,148 53,144 58,144 C63,144 68,148 68,154" fill="#000" opacity="0.12" />
+                    <path d="M110,154 C110,148 115,144 120,144 C125,144 130,148 130,154" fill="#000" opacity="0.12" />
+                    <circle cx="58" cy="155" r="8" fill="#FF6B00" /><circle cx="58" cy="155" r="5.5" fill="#000" opacity="0.25" /><circle cx="58" cy="155" r="2" fill="#FF6B00" opacity="0.4" />
+                    <circle cx="120" cy="155" r="8" fill="#FF6B00" /><circle cx="120" cy="155" r="5.5" fill="#000" opacity="0.25" /><circle cx="120" cy="155" r="2" fill="#FF6B00" opacity="0.4" />
                   </g>
                 </svg>
               </div>
@@ -125,24 +145,41 @@ export default function Solution() {
               {/* Animated pit SVG */}
               <div className="absolute right-6 top-6 opacity-[0.45] group-hover:opacity-[0.70] transition-opacity duration-1000">
                 <svg width="180" height="200" viewBox="0 0 180 200" fill="none">
+                  {/* Ground surface left & right */}
                   <rect x="10" y="80" width="55" height="4" rx="2" fill="#FF6B00" />
                   <rect x="115" y="80" width="55" height="4" rx="2" fill="#FF6B00" />
+                  {/* Pit walls */}
                   <rect x="65" y="84" width="3" height="80" fill="#FF6B00" opacity="0.3" />
                   <rect x="112" y="84" width="3" height="80" fill="#FF6B00" opacity="0.3" />
+                  {/* Pit floor */}
                   <rect x="65" y="161" width="50" height="3" fill="#FF6B00" opacity="0.3" />
+                  {/* Underground depth lines */}
+                  {[100, 120, 140].map((y) => (
+                    <line key={y} x1="68" y1={y} x2="112" y2={y} stroke="#FF6B00" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.15" />
+                  ))}
+                  {/* Descending platform */}
                   <rect x="68" y="80" width="44" height="4" rx="2" fill="#FF6B00">
                     <animate attributeName="y" values="80;155;155;80" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                   </rect>
-                  <rect x="72" y="60" width="36" height="16" rx="5" fill="#FF6B00" opacity="0.8">
-                    <animate attributeName="y" values="60;135;135;60" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                  </rect>
-                  <rect x="76" y="50" width="28" height="12" rx="4" fill="#FF6B00" opacity="0.5">
-                    <animate attributeName="y" values="50;125;125;50" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                  </rect>
-                  {/* Underground lines */}
-                  {[100, 120, 140].map((y) => (
-                    <line key={y} x1="68" y1={y} x2="112" y2={y} stroke="#FF6B00" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.2" />
-                  ))}
+                  {/* Car descending — hatchback (logo style) */}
+                  <g>
+                    <animateTransform attributeName="transform" type="translate" values="0,0;0,75;0,75;0,0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                    <path d="M68,76 L68,68 C68,66 69,64 71,64 L109,64 C111,64 112,66 112,68 L112,76 Z" fill="#FF6B00" opacity="0.8" />
+                    <path d="M74,64 L79,54 C80,52 82,51 84,51 L98,51 C100,51 101,52 102,54 L107,64 Z" fill="#FF6B00" opacity="0.65" />
+                    <path d="M76,63 L80,55 L89,55 L89,63 Z" fill="#000" opacity="0.25" />
+                    <path d="M91,63 L91,55 L100,53 L105,63 Z" fill="#000" opacity="0.25" />
+                    <circle cx="77" cy="77" r="5" fill="#FF6B00" opacity="0.8" /><circle cx="77" cy="77" r="3.5" fill="#000" opacity="0.25" /><circle cx="77" cy="77" r="1.3" fill="#FF6B00" opacity="0.5" />
+                    <circle cx="103" cy="77" r="5" fill="#FF6B00" opacity="0.8" /><circle cx="103" cy="77" r="3.5" fill="#000" opacity="0.25" /><circle cx="103" cy="77" r="1.3" fill="#FF6B00" opacity="0.5" />
+                  </g>
+                  {/* Coupe parked at ground level (logo style) */}
+                  <g opacity="0.3">
+                    <path d="M12,76 L12,68 C12,65 14,63 17,63 L58,63 C61,63 62,65 62,68 L62,76 Z" fill="#FF6B00" />
+                    <path d="M20,63 L26,52 C27,50 29,49 32,49 L45,49 C50,49 53,51 55,54 L60,63 Z" fill="#FF6B00" opacity="0.8" />
+                    <path d="M23,62 L28,53 L39,53 L39,62 Z" fill="#000" opacity="0.2" />
+                    <path d="M42,62 L42,53 L52,54 L57,62 Z" fill="#000" opacity="0.2" />
+                    <circle cx="24" cy="77" r="5.5" fill="#FF6B00" /><circle cx="24" cy="77" r="3.8" fill="#000" opacity="0.2" /><circle cx="24" cy="77" r="1.3" fill="#FF6B00" opacity="0.4" />
+                    <circle cx="51" cy="77" r="5.5" fill="#FF6B00" /><circle cx="51" cy="77" r="3.8" fill="#000" opacity="0.2" /><circle cx="51" cy="77" r="1.3" fill="#FF6B00" opacity="0.4" />
+                  </g>
                 </svg>
               </div>
 

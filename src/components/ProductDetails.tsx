@@ -116,27 +116,43 @@ export default function ProductDetails() {
             <div className="space-y-8">
               <div className="reveal-rotate relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-wp-graphite to-wp-charcoal border border-white/[0.04]">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  {/* Larger animated stack diagram */}
+                  {/* Larger animated stack diagram with cars */}
                   <svg width="300" height="250" viewBox="0 0 300 250" fill="none" className="opacity-70">
+                    {/* Ground platform */}
                     <rect x="30" y="200" width="240" height="6" rx="3" fill="#FF6B00" />
+                    {/* Lifting platform */}
                     <rect x="30" y="100" width="240" height="6" rx="3" fill="#FF6B00" opacity="0.8">
                       <animate attributeName="y" values="194;100;100;194" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="38" y="100" width="4" height="100" fill="#FF6B00" opacity="0.4">
+                    {/* Pillars */}
+                    <rect x="38" y="100" width="5" height="100" fill="#FF6B00" opacity="0.4">
                       <animate attributeName="height" values="0;100;100;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="258" y="100" width="4" height="100" fill="#FF6B00" opacity="0.4">
+                    <rect x="258" y="100" width="5" height="100" fill="#FF6B00" opacity="0.4">
                       <animate attributeName="height" values="0;100;100;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="80" y="75" width="140" height="22" rx="8" fill="#FF6B00" opacity="0.7">
-                      <animate attributeName="y" values="172;75;75;172" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
-                    <rect x="100" y="60" width="100" height="18" rx="6" fill="#FF6B00" opacity="0.5">
-                      <animate attributeName="y" values="157;60;60;157" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
-                    <g opacity="0.25">
-                      <rect x="80" y="172" width="140" height="22" rx="8" fill="#FF6B00" />
-                      <rect x="100" y="157" width="100" height="18" rx="6" fill="#FF6B00" />
+                    {/* Upper car — sporty coupe (logo style) */}
+                    <g>
+                      <animateTransform attributeName="transform" type="translate" values="0,94;0,0;0,0;0,94" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                      <path d="M62,96 L62,84 C62,79 66,76 72,76 L228,76 C234,76 238,80 238,85 L238,96 Z" fill="#FF6B00" opacity="0.8" />
+                      <path d="M90,76 L104,55 C107,51 112,49 117,49 L175,49 C184,49 192,52 198,58 L218,76 Z" fill="#FF6B00" opacity="0.7" />
+                      <path d="M96,75 L108,57 L148,57 L148,75 Z" fill="#000" opacity="0.25" />
+                      <path d="M155,75 L155,57 L186,60 L210,75 Z" fill="#000" opacity="0.25" />
+                      <path d="M75,96 C75,87 83,80 93,80 C103,80 111,87 111,96" fill="#000" opacity="0.12" />
+                      <path d="M189,96 C189,87 197,80 207,80 C217,80 225,87 225,96" fill="#000" opacity="0.12" />
+                      <circle cx="93" cy="97" r="12" fill="#FF6B00" /><circle cx="93" cy="97" r="8" fill="#000" opacity="0.25" /><circle cx="93" cy="97" r="3" fill="#FF6B00" opacity="0.5" />
+                      <circle cx="207" cy="97" r="12" fill="#FF6B00" /><circle cx="207" cy="97" r="8" fill="#000" opacity="0.25" /><circle cx="207" cy="97" r="3" fill="#FF6B00" opacity="0.5" />
+                      <path d="M233,80 L238,82 L238,88 L234,87 Z" fill="#FFA" opacity="0.7" />
+                      <path d="M62,80 L67,82 L67,88 L63,87 Z" fill="#F33" opacity="0.5" />
+                    </g>
+                    {/* Lower car — hatchback (logo style) */}
+                    <g opacity="0.3">
+                      <path d="M62,196 L62,184 C62,179 66,176 72,176 L228,176 C234,176 238,180 238,185 L238,196 Z" fill="#FF6B00" />
+                      <path d="M95,176 L108,159 C110,156 114,154 118,154 L185,154 C189,154 192,156 194,159 L207,176 Z" fill="#FF6B00" opacity="0.7" />
+                      <path d="M100,175 L110,161 L148,161 L148,175 Z" fill="#000" opacity="0.2" />
+                      <path d="M155,175 L155,161 L188,158 L202,175 Z" fill="#000" opacity="0.2" />
+                      <circle cx="93" cy="197" r="11" fill="#FF6B00" /><circle cx="93" cy="197" r="7.5" fill="#000" opacity="0.2" /><circle cx="93" cy="197" r="2.8" fill="#FF6B00" opacity="0.4" />
+                      <circle cx="207" cy="197" r="11" fill="#FF6B00" /><circle cx="207" cy="197" r="7.5" fill="#000" opacity="0.2" /><circle cx="207" cy="197" r="2.8" fill="#FF6B00" opacity="0.4" />
                     </g>
                   </svg>
                 </div>
@@ -167,20 +183,45 @@ export default function ProductDetails() {
               <div className="reveal-rotate relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-wp-graphite to-wp-charcoal border border-white/[0.04]">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <svg width="300" height="250" viewBox="0 0 300 250" fill="none" className="opacity-70">
+                    {/* Ground surface */}
                     <rect x="20" y="100" width="100" height="5" rx="2.5" fill="#F59E0B" />
                     <rect x="180" y="100" width="100" height="5" rx="2.5" fill="#F59E0B" />
-                    <rect x="120" y="105" width="4" height="100" fill="#F59E0B" opacity="0.2" />
-                    <rect x="176" y="105" width="4" height="100" fill="#F59E0B" opacity="0.2" />
+                    {/* Pit walls */}
+                    <rect x="120" y="105" width="4" height="100" fill="#F59E0B" opacity="0.25" />
+                    <rect x="176" y="105" width="4" height="100" fill="#F59E0B" opacity="0.25" />
+                    {/* Pit floor */}
                     <rect x="120" y="202" width="60" height="3" fill="#F59E0B" opacity="0.2" />
+                    {/* Depth lines */}
+                    {[125, 145, 165, 185].map((y) => (
+                      <line key={y} x1="124" y1={y} x2="176" y2={y} stroke="#F59E0B" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.12" />
+                    ))}
+                    {/* Descending platform */}
                     <rect x="124" y="100" width="52" height="5" rx="2.5" fill="#F59E0B" opacity="0.8">
                       <animate attributeName="y" values="100;195;195;100" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="128" y="78" width="44" height="18" rx="6" fill="#F59E0B" opacity="0.6">
-                      <animate attributeName="y" values="78;173;173;78" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
-                    <rect x="134" y="66" width="32" height="14" rx="5" fill="#F59E0B" opacity="0.4">
-                      <animate attributeName="y" values="66;161;161;66" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
+                    {/* Car descending — hatchback (logo style) */}
+                    <g>
+                      <animateTransform attributeName="transform" type="translate" values="0,0;0,95;0,95;0,0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                      <path d="M124,96 L124,84 C124,81 126,79 128,79 L172,79 C174,79 176,81 176,84 L176,96 Z" fill="#F59E0B" opacity="0.7" />
+                      <path d="M135,79 L140,67 C141,65 143,64 145,64 L158,64 C160,64 162,65 163,67 L168,79 Z" fill="#F59E0B" opacity="0.55" />
+                      <path d="M137,78 L141,69 L149,69 L149,78 Z" fill="#000" opacity="0.2" />
+                      <path d="M151,78 L151,69 L161,68 L166,78 Z" fill="#000" opacity="0.2" />
+                      <path d="M130,96 C130,89 133,84 138,84 C143,84 146,89 146,96" fill="#000" opacity="0.12" />
+                      <path d="M154,96 C154,89 157,84 162,84 C167,84 170,89 170,96" fill="#000" opacity="0.12" />
+                      <circle cx="138" cy="97" r="5.5" fill="#F59E0B" opacity="0.8" /><circle cx="138" cy="97" r="3.5" fill="#000" opacity="0.18" /><circle cx="138" cy="97" r="1.3" fill="#F59E0B" opacity="0.4" />
+                      <circle cx="162" cy="97" r="5.5" fill="#F59E0B" opacity="0.8" /><circle cx="162" cy="97" r="3.5" fill="#000" opacity="0.18" /><circle cx="162" cy="97" r="1.3" fill="#F59E0B" opacity="0.4" />
+                    </g>
+                    {/* Sporty coupe on ground (logo style) */}
+                    <g opacity="0.3">
+                      <path d="M22,96 L22,84 C22,80 25,78 30,78 L108,78 C113,78 116,80 116,84 L116,96 Z" fill="#F59E0B" />
+                      <path d="M38,78 L48,63 C50,60 53,59 56,59 L80,59 C85,59 90,61 94,64 L108,78 Z" fill="#F59E0B" opacity="0.8" />
+                      <path d="M42,77 L50,65 L72,65 L72,77 Z" fill="#000" opacity="0.15" />
+                      <path d="M76,77 L76,65 L92,66 L104,77 Z" fill="#000" opacity="0.15" />
+                      <path d="M30,96 C30,89 34,84 40,84 C46,84 50,89 50,96" fill="#000" opacity="0.12" />
+                      <path d="M86,96 C86,89 90,84 96,84 C102,84 106,89 106,96" fill="#000" opacity="0.12" />
+                      <circle cx="40" cy="97" r="6.5" fill="#F59E0B" /><circle cx="40" cy="97" r="4" fill="#000" opacity="0.18" /><circle cx="40" cy="97" r="1.5" fill="#F59E0B" opacity="0.4" />
+                      <circle cx="100" cy="97" r="6.5" fill="#F59E0B" /><circle cx="100" cy="97" r="4" fill="#000" opacity="0.18" /><circle cx="100" cy="97" r="1.5" fill="#F59E0B" opacity="0.4" />
+                    </g>
                   </svg>
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 text-center">

@@ -8,22 +8,22 @@ export default function Footer() {
       <div className="border-b border-white/[0.03] py-4 overflow-hidden">
         <div className="flex whitespace-nowrap marquee-track">
           {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i} className="text-white/[0.12] font-[Space_Grotesk] text-6xl font-bold mx-8 select-none">
+            <span key={i} className="text-white/[0.12] font-[Space_Grotesk] text-3xl sm:text-4xl md:text-6xl font-bold mx-4 sm:mx-8 select-none">
               WE ENGINEER SPACE
             </span>
           ))}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 md:py-20">
-        <div className="grid md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16 md:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <Image
-              src="/images/wepark-logo.jpeg"
+              src="/images/wepark-logo-transparent.png"
               alt="WePark"
-              width={120}
-              height={44}
+              width={150}
+              height={55}
               className="logo-glow mb-6"
               style={{ height: "auto" }}
             />

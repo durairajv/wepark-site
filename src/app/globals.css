@@ -453,6 +453,27 @@ body {
 /* ═══════════════ RESPONSIVE HELPERS ═══════════════ */
 @media (max-width: 768px) {
   .cursor-dot, .cursor-ring { display: none !important; }
+
+  /* Prevent horizontal overflow from large elements */
+  .marquee-track {
+    animation-duration: 20s;
+  }
+}
+
+@media (min-width: 640px) {
+  /* Scale up logo on tablet+ */
+  nav .logo-glow,
+  nav img[alt="WePark"] {
+    max-width: 160px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Full-size logo on desktop */
+  nav .logo-glow,
+  nav img[alt="WePark"] {
+    max-width: 200px !important;
+  }
 }
 
 /* ═══════════════ SMOOTH IMAGE ═══════════════ */

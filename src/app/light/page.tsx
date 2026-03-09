@@ -17,6 +17,15 @@ function Navbar() {
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
   const links = [
     { href: "#products", label: "Products" },
     { href: "#process", label: "Process" },
@@ -27,37 +36,39 @@ function Navbar() {
     { href: "#faq", label: "FAQ" },
   ];
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "py-2 bg-white/90 backdrop-blur-2xl shadow-sm border-b border-black/[0.06]" : "py-6 bg-transparent"}`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between">
-        <a href="#" className="flex items-center">
-          <div className={`relative rounded-xl overflow-hidden bg-black transition-all duration-500 ${scrolled ? "px-3 py-2" : "px-4 py-2.5"}`}>
-            <Image src="/images/wepark-logo.jpeg" alt="WePark" width={scrolled ? 140 : 180} height={scrolled ? 50 : 65} className="object-contain transition-all duration-500" style={{ height: "auto" }} priority />
+    <>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "py-2 bg-white/90 backdrop-blur-2xl shadow-sm border-b border-black/[0.06]" : "py-4 sm:py-6 bg-transparent"}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
+          <a href="#" className="flex items-center">
+            <Image src="/images/wepark-logo-transparent.png" alt="WePark" width={scrolled ? 120 : 140} height={scrolled ? 44 : 52} className="object-contain transition-all duration-500" style={{ height: "auto", maxWidth: scrolled ? "120px" : "140px" }} sizes="(max-width: 640px) 120px, (max-width: 1024px) 160px, 200px" priority />
+          </a>
+          <div className="hidden lg:flex items-center gap-1">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} className="px-3 py-2 text-[12px] text-black/70 hover:text-wp-orange transition-colors duration-300 tracking-wide uppercase font-medium xl:px-4 xl:text-[13px]">{l.label}</a>
+            ))}
+            <div className="w-px h-5 bg-black/10 mx-2" />
+            <a href="#contact" className="bg-black text-white px-5 py-2.5 rounded-full text-[12px] xl:text-[13px] font-semibold tracking-wide uppercase hover:bg-wp-orange transition-all duration-500 hover:shadow-lg hover:shadow-wp-orange/20">Get a Quote</a>
           </div>
-        </a>
-        <div className="hidden lg:flex items-center gap-1">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="px-4 py-2 text-[13px] text-black/70 hover:text-wp-orange transition-colors duration-300 tracking-wide uppercase font-medium">{l.label}</a>
-          ))}
-          <div className="w-px h-5 bg-black/10 mx-3" />
-          <a href="#contact" className="bg-black text-white px-6 py-2.5 rounded-full text-[13px] font-semibold tracking-wide uppercase hover:bg-wp-orange transition-all duration-500 hover:shadow-lg hover:shadow-wp-orange/20">Get a Quote</a>
+          <button className="lg:hidden relative w-10 h-10 flex items-center justify-center z-[60]" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
+            <div className="relative w-6 h-5">
+              <span className={`absolute left-0 w-full h-[2px] transition-all duration-500 ${mobileOpen ? "top-2 rotate-45 bg-black/80" : "top-0 bg-black/80"}`} />
+              <span className={`absolute left-0 w-full h-[2px] bg-black/80 transition-all duration-500 top-2 ${mobileOpen ? "opacity-0 scale-0" : "opacity-100"}`} />
+              <span className={`absolute left-0 w-full h-[2px] transition-all duration-500 ${mobileOpen ? "top-2 -rotate-45 bg-black/80" : "top-4 bg-black/80"}`} />
+            </div>
+          </button>
         </div>
-        <button className="lg:hidden relative w-10 h-10 flex items-center justify-center" onClick={() => setMobileOpen(!mobileOpen)}>
-          <div className="relative w-6 h-5">
-            <span className={`absolute left-0 w-full h-[2px] bg-black/80 transition-all duration-500 ${mobileOpen ? "top-2 rotate-45" : "top-0"}`} />
-            <span className={`absolute left-0 w-full h-[2px] bg-black/80 transition-all duration-500 top-2 ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`absolute left-0 w-full h-[2px] bg-black/80 transition-all duration-500 ${mobileOpen ? "top-2 -rotate-45" : "top-4"}`} />
-          </div>
-        </button>
+      </nav>
+
+      {/* Mobile menu — full screen overlay (outside nav for proper z-index) */}
+      <div className={`lg:hidden fixed inset-0 z-[55] bg-white/[0.98] backdrop-blur-2xl transition-all duration-700 ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        <div className="flex flex-col items-center justify-center h-full gap-6 sm:gap-8 px-6">
+          {links.map((l, i) => (
+            <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="font-[Space_Grotesk] text-2xl sm:text-3xl font-bold text-black/70 hover:text-wp-orange transition-all duration-300" style={{ transitionDelay: mobileOpen ? `${i * 60}ms` : "0ms", opacity: mobileOpen ? 1 : 0, transform: mobileOpen ? "translateY(0)" : "translateY(20px)" }}>{l.label}</a>
+          ))}
+          <a href="#contact" onClick={() => setMobileOpen(false)} className="bg-black text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-semibold mt-4">Get a Quote</a>
+        </div>
       </div>
-      {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 bg-white/98 backdrop-blur-2xl z-[-1] flex flex-col items-center justify-center gap-8">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="font-[Space_Grotesk] text-3xl font-bold text-black/70 hover:text-wp-orange transition-all">{l.label}</a>
-          ))}
-          <a href="#contact" onClick={() => setMobileOpen(false)} className="bg-black text-white px-10 py-4 rounded-full text-lg font-semibold mt-4">Get a Quote</a>
-        </div>
-      )}
-    </nav>
+    </>
   );
 }
 
@@ -114,12 +125,12 @@ function Hero() {
           Intelligent vertical parking systems that <span className="text-black/80 font-medium">double your capacity</span> without expanding your footprint.
         </p>
 
-        <div className={`mt-12 flex flex-col sm:flex-row items-center justify-center gap-5 transition-all duration-[2s] ${phase >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <a href="#products" className="bg-black text-white px-10 py-4 rounded-full text-lg font-semibold tracking-wide hover:bg-wp-orange transition-all duration-500 hover:shadow-xl hover:shadow-wp-orange/20 group flex items-center gap-3">
+        <div className={`mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 transition-all duration-[2s] ${phase >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <a href="#products" className="bg-black text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-semibold tracking-wide hover:bg-wp-orange transition-all duration-500 hover:shadow-xl hover:shadow-wp-orange/20 group flex items-center gap-3 w-full sm:w-auto justify-center">
             Explore Solutions
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="transition-transform group-hover:translate-x-1"><path d="M4 10h12M12 4l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
           </a>
-          <a href="#contact" className="border-2 border-black/10 text-black/70 px-10 py-4 rounded-full text-lg font-medium tracking-wide hover:border-wp-orange/40 hover:text-wp-orange transition-all duration-500 group flex items-center gap-3">
+          <a href="#contact" className="border-2 border-black/10 text-black/70 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-medium tracking-wide hover:border-wp-orange/40 hover:text-wp-orange transition-all duration-500 group flex items-center gap-3 w-full sm:w-auto justify-center">
             Get a Quote
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-1"><path d="M3.75 9h10.5M10.5 3.75L15.75 9l-5.25 5.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
           </a>
@@ -219,19 +230,43 @@ function ProductsSection() {
           <div className="reveal group bg-[#FAFAF7] rounded-3xl p-8 md:p-12 border border-black/[0.05] hover:border-wp-orange/25 hover:shadow-2xl hover:shadow-wp-orange/5 transition-all duration-700 hover:-translate-y-2 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-72 h-72 bg-wp-orange/[0.03] rounded-full blur-[100px] group-hover:bg-wp-orange/[0.06] transition-all duration-1000" />
             {/* Animated stack SVG */}
-            <div className="absolute right-6 top-6 opacity-[0.40] group-hover:opacity-[0.65] transition-opacity duration-1000">
-              <svg width="140" height="160" viewBox="0 0 180 200" fill="none">
+            <div className="absolute right-4 top-4 sm:right-6 sm:top-6 opacity-[0.25] sm:opacity-[0.40] group-hover:opacity-[0.65] transition-opacity duration-1000">
+              <svg width="100" height="120" viewBox="0 0 180 200" fill="none" className="sm:w-[140px] sm:h-[160px]">
+                {/* Ground platform */}
                 <rect x="20" y="160" width="140" height="5" rx="2.5" fill="#FF6B00" />
+                {/* Lifting platform */}
                 <rect x="20" y="80" width="140" height="5" rx="2.5" fill="#FF6B00">
                   <animate attributeName="y" values="155;80;80;155" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                 </rect>
-                <rect x="45" y="58" width="90" height="18" rx="6" fill="#FF6B00">
-                  <animate attributeName="y" values="134;58;58;134" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                {/* Pillars */}
+                <rect x="25" y="80" width="3" height="80" fill="#FF6B00" opacity="0.5">
+                  <animate attributeName="height" values="0;80;80;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                 </rect>
-                <rect x="60" y="47" width="60" height="14" rx="5" fill="#FF6B00" opacity="0.7">
-                  <animate attributeName="y" values="123;47;47;123" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                <rect x="152" y="80" width="3" height="80" fill="#FF6B00" opacity="0.5">
+                  <animate attributeName="height" values="0;80;80;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                 </rect>
-                <g opacity="0.3"><rect x="45" y="134" width="90" height="18" rx="6" fill="#FF6B00" /><rect x="60" y="123" width="60" height="14" rx="5" fill="#FF6B00" /></g>
+                {/* Upper car — sporty coupe (logo style) */}
+                <g>
+                  <animateTransform attributeName="transform" type="translate" values="0,76;0,0;0,0;0,76" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                  <path d="M42,75 L42,65 C42,62 44,60 48,60 L130,60 C134,60 136,63 136,66 L136,75 Z" fill="#FF6B00" />
+                  <path d="M58,60 L66,45 C68,42 70,41 73,41 L100,41 C105,41 110,43 114,47 L126,60 Z" fill="#FF6B00" opacity="0.75" />
+                  <path d="M62,59 L68,47 L88,47 L88,59 Z" fill="#000" opacity="0.2" />
+                  <path d="M92,59 L92,47 L112,49 L122,59 Z" fill="#000" opacity="0.2" />
+                  <path d="M50,75 C50,68 55,63 62,63 C69,63 74,68 74,75" fill="#000" opacity="0.1" />
+                  <path d="M106,75 C106,68 111,63 118,63 C125,63 130,68 130,75" fill="#000" opacity="0.1" />
+                  <circle cx="62" cy="76" r="7.5" fill="#FF6B00" /><circle cx="62" cy="76" r="5" fill="#000" opacity="0.18" /><circle cx="62" cy="76" r="2" fill="#FF6B00" opacity="0.3" />
+                  <circle cx="118" cy="76" r="7.5" fill="#FF6B00" /><circle cx="118" cy="76" r="5" fill="#000" opacity="0.18" /><circle cx="118" cy="76" r="2" fill="#FF6B00" opacity="0.3" />
+                  <path d="M133,62 L136,63 L136,68 L134,67 Z" fill="#FFA" opacity="0.6" />
+                </g>
+                {/* Lower car — hatchback (logo style) */}
+                <g opacity="0.35">
+                  <path d="M44,155 L44,145 C44,142 46,140 49,140 L129,140 C132,140 134,142 134,145 L134,155 Z" fill="#FF6B00" />
+                  <path d="M60,140 L68,128 C69,126 71,125 73,125 L108,125 C110,125 112,126 113,128 L120,140 Z" fill="#FF6B00" opacity="0.7" />
+                  <path d="M63,139 L69,130 L88,130 L88,139 Z" fill="#000" opacity="0.15" />
+                  <path d="M92,139 L92,130 L112,129 L118,139 Z" fill="#000" opacity="0.15" />
+                  <circle cx="62" cy="156" r="7" fill="#FF6B00" /><circle cx="62" cy="156" r="4.5" fill="#000" opacity="0.18" /><circle cx="62" cy="156" r="1.8" fill="#FF6B00" opacity="0.3" />
+                  <circle cx="118" cy="156" r="7" fill="#FF6B00" /><circle cx="118" cy="156" r="4.5" fill="#000" opacity="0.18" /><circle cx="118" cy="156" r="1.8" fill="#FF6B00" opacity="0.3" />
+                </g>
               </svg>
             </div>
 
@@ -258,21 +293,39 @@ function ProductsSection() {
           {/* PIT */}
           <div className="reveal group bg-[#FAFAF7] rounded-3xl p-8 md:p-12 border border-black/[0.05] hover:border-wp-amber/25 hover:shadow-2xl hover:shadow-wp-amber/5 transition-all duration-700 hover:-translate-y-2 relative overflow-hidden" style={{ transitionDelay: "0.2s" }}>
             <div className="absolute bottom-0 left-0 w-72 h-72 bg-wp-amber/[0.03] rounded-full blur-[100px] group-hover:bg-wp-amber/[0.06] transition-all duration-1000" />
-            <div className="absolute right-6 top-6 opacity-[0.40] group-hover:opacity-[0.65] transition-opacity duration-1000">
-              <svg width="140" height="160" viewBox="0 0 180 200" fill="none">
+            <div className="absolute right-4 top-4 sm:right-6 sm:top-6 opacity-[0.25] sm:opacity-[0.40] group-hover:opacity-[0.65] transition-opacity duration-1000">
+              <svg width="100" height="120" viewBox="0 0 180 200" fill="none" className="sm:w-[140px] sm:h-[160px]">
+                {/* Ground surface */}
                 <rect x="10" y="80" width="55" height="4" rx="2" fill="#F59E0B" />
                 <rect x="115" y="80" width="55" height="4" rx="2" fill="#F59E0B" />
+                {/* Pit walls */}
                 <rect x="65" y="84" width="3" height="80" fill="#F59E0B" opacity="0.3" />
                 <rect x="112" y="84" width="3" height="80" fill="#F59E0B" opacity="0.3" />
+                {/* Pit floor */}
+                <rect x="65" y="161" width="50" height="3" fill="#F59E0B" opacity="0.2" />
+                {/* Descending platform */}
                 <rect x="68" y="80" width="44" height="4" rx="2" fill="#F59E0B">
                   <animate attributeName="y" values="80;155;155;80" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                 </rect>
-                <rect x="72" y="60" width="36" height="16" rx="5" fill="#F59E0B" opacity="0.8">
-                  <animate attributeName="y" values="60;135;135;60" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                </rect>
-                <rect x="76" y="50" width="28" height="12" rx="4" fill="#F59E0B" opacity="0.5">
-                  <animate attributeName="y" values="50;125;125;50" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                </rect>
+                {/* Car descending — hatchback (logo style) */}
+                <g>
+                  <animateTransform attributeName="transform" type="translate" values="0,0;0,75;0,75;0,0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                  <path d="M69,76 L69,67 C69,65 70,63 72,63 L108,63 C110,63 111,65 111,67 L111,76 Z" fill="#F59E0B" opacity="0.8" />
+                  <path d="M76,63 L80,55 C81,53 82,52 84,52 L96,52 C98,52 99,53 100,55 L104,63 Z" fill="#F59E0B" opacity="0.6" />
+                  <path d="M78,62 L81,56 L89,56 L89,62 Z" fill="#000" opacity="0.15" />
+                  <path d="M91,62 L91,56 L99,55 L103,62 Z" fill="#000" opacity="0.15" />
+                  <circle cx="78" cy="77" r="4.5" fill="#F59E0B" /><circle cx="78" cy="77" r="3" fill="#000" opacity="0.15" /><circle cx="78" cy="77" r="1.2" fill="#F59E0B" opacity="0.3" />
+                  <circle cx="102" cy="77" r="4.5" fill="#F59E0B" /><circle cx="102" cy="77" r="3" fill="#000" opacity="0.15" /><circle cx="102" cy="77" r="1.2" fill="#F59E0B" opacity="0.3" />
+                </g>
+                {/* Sporty coupe on surface (logo style) */}
+                <g opacity="0.3">
+                  <path d="M13,76 L13,67 C13,64 15,62 18,62 L56,62 C59,62 61,64 61,67 L61,76 Z" fill="#F59E0B" />
+                  <path d="M22,62 L28,51 C29,49 31,48 33,48 L44,48 C47,48 50,49 52,52 L58,62 Z" fill="#F59E0B" opacity="0.8" />
+                  <path d="M24,61 L29,52 L40,52 L40,61 Z" fill="#000" opacity="0.12" />
+                  <path d="M43,61 L43,52 L51,53 L56,61 Z" fill="#000" opacity="0.12" />
+                  <circle cx="24" cy="77" r="5" fill="#F59E0B" /><circle cx="24" cy="77" r="3.2" fill="#000" opacity="0.15" /><circle cx="24" cy="77" r="1.2" fill="#F59E0B" opacity="0.3" />
+                  <circle cx="51" cy="77" r="5" fill="#F59E0B" /><circle cx="51" cy="77" r="3.2" fill="#000" opacity="0.15" /><circle cx="51" cy="77" r="1.2" fill="#F59E0B" opacity="0.3" />
+                </g>
               </svg>
             </div>
 
@@ -394,19 +447,35 @@ function ProductDetailsSection() {
                     <rect x="30" y="100" width="240" height="6" rx="3" fill="#FF6B00" opacity="0.8">
                       <animate attributeName="y" values="194;100;100;194" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="38" y="100" width="4" height="100" fill="#FF6B00" opacity="0.4">
+                    <rect x="38" y="100" width="5" height="100" fill="#FF6B00" opacity="0.4">
                       <animate attributeName="height" values="0;100;100;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="258" y="100" width="4" height="100" fill="#FF6B00" opacity="0.4">
+                    <rect x="258" y="100" width="5" height="100" fill="#FF6B00" opacity="0.4">
                       <animate attributeName="height" values="0;100;100;0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="80" y="75" width="140" height="22" rx="8" fill="#FF6B00" opacity="0.7">
-                      <animate attributeName="y" values="172;75;75;172" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
-                    <rect x="100" y="60" width="100" height="18" rx="6" fill="#FF6B00" opacity="0.5">
-                      <animate attributeName="y" values="157;60;60;157" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
-                    <g opacity="0.25"><rect x="80" y="172" width="140" height="22" rx="8" fill="#FF6B00" /><rect x="100" y="157" width="100" height="18" rx="6" fill="#FF6B00" /></g>
+                    {/* Upper car — sporty coupe (logo style) */}
+                    <g>
+                      <animateTransform attributeName="transform" type="translate" values="0,94;0,0;0,0;0,94" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                      <path d="M62,96 L62,84 C62,79 66,76 72,76 L228,76 C234,76 238,80 238,85 L238,96 Z" fill="#FF6B00" opacity="0.8" />
+                      <path d="M90,76 L104,55 C107,51 112,49 117,49 L175,49 C184,49 192,52 198,58 L218,76 Z" fill="#FF6B00" opacity="0.7" />
+                      <path d="M96,75 L108,57 L148,57 L148,75 Z" fill="#000" opacity="0.15" />
+                      <path d="M155,75 L155,57 L186,60 L210,75 Z" fill="#000" opacity="0.15" />
+                      <path d="M75,96 C75,87 83,80 93,80 C103,80 111,87 111,96" fill="#000" opacity="0.1" />
+                      <path d="M189,96 C189,87 197,80 207,80 C217,80 225,87 225,96" fill="#000" opacity="0.1" />
+                      <circle cx="93" cy="97" r="12" fill="#FF6B00" /><circle cx="93" cy="97" r="8" fill="#000" opacity="0.15" /><circle cx="93" cy="97" r="3" fill="#FF6B00" opacity="0.3" />
+                      <circle cx="207" cy="97" r="12" fill="#FF6B00" /><circle cx="207" cy="97" r="8" fill="#000" opacity="0.15" /><circle cx="207" cy="97" r="3" fill="#FF6B00" opacity="0.3" />
+                      <path d="M233,80 L238,82 L238,88 L234,87 Z" fill="#FFA" opacity="0.6" />
+                      <path d="M62,80 L67,82 L67,88 L63,87 Z" fill="#F33" opacity="0.4" />
+                    </g>
+                    {/* Lower car — hatchback (logo style) */}
+                    <g opacity="0.3">
+                      <path d="M62,196 L62,184 C62,179 66,176 72,176 L228,176 C234,176 238,180 238,185 L238,196 Z" fill="#FF6B00" />
+                      <path d="M95,176 L108,159 C110,156 114,154 118,154 L185,154 C189,154 192,156 194,159 L207,176 Z" fill="#FF6B00" opacity="0.7" />
+                      <path d="M100,175 L110,161 L148,161 L148,175 Z" fill="#000" opacity="0.12" />
+                      <path d="M155,175 L155,161 L188,158 L202,175 Z" fill="#000" opacity="0.12" />
+                      <circle cx="93" cy="197" r="11" fill="#FF6B00" /><circle cx="93" cy="197" r="7.5" fill="#000" opacity="0.12" /><circle cx="93" cy="197" r="2.8" fill="#FF6B00" opacity="0.3" />
+                      <circle cx="207" cy="197" r="11" fill="#FF6B00" /><circle cx="207" cy="197" r="7.5" fill="#000" opacity="0.12" /><circle cx="207" cy="197" r="2.8" fill="#FF6B00" opacity="0.3" />
+                    </g>
                   </svg>
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 text-center">
@@ -433,17 +502,35 @@ function ProductDetailsSection() {
                   <svg width="300" height="250" viewBox="0 0 300 250" fill="none" className="opacity-65">
                     <rect x="20" y="100" width="100" height="5" rx="2.5" fill="#F59E0B" />
                     <rect x="180" y="100" width="100" height="5" rx="2.5" fill="#F59E0B" />
-                    <rect x="120" y="105" width="4" height="100" fill="#F59E0B" opacity="0.2" />
-                    <rect x="176" y="105" width="4" height="100" fill="#F59E0B" opacity="0.2" />
+                    <rect x="120" y="105" width="4" height="100" fill="#F59E0B" opacity="0.25" />
+                    <rect x="176" y="105" width="4" height="100" fill="#F59E0B" opacity="0.25" />
+                    <rect x="120" y="202" width="60" height="3" fill="#F59E0B" opacity="0.2" />
                     <rect x="124" y="100" width="52" height="5" rx="2.5" fill="#F59E0B" opacity="0.8">
                       <animate attributeName="y" values="100;195;195;100" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
                     </rect>
-                    <rect x="128" y="78" width="44" height="18" rx="6" fill="#F59E0B" opacity="0.6">
-                      <animate attributeName="y" values="78;173;173;78" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
-                    <rect x="134" y="66" width="32" height="14" rx="5" fill="#F59E0B" opacity="0.4">
-                      <animate attributeName="y" values="66;161;161;66" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
-                    </rect>
+                    {/* Car descending — hatchback (logo style) */}
+                    <g>
+                      <animateTransform attributeName="transform" type="translate" values="0,0;0,95;0,95;0,0" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" />
+                      <path d="M124,96 L124,84 C124,81 126,79 128,79 L172,79 C174,79 176,81 176,84 L176,96 Z" fill="#F59E0B" opacity="0.7" />
+                      <path d="M135,79 L140,67 C141,65 143,64 145,64 L158,64 C160,64 162,65 163,67 L168,79 Z" fill="#F59E0B" opacity="0.55" />
+                      <path d="M137,78 L141,69 L149,69 L149,78 Z" fill="#000" opacity="0.12" />
+                      <path d="M151,78 L151,69 L161,68 L166,78 Z" fill="#000" opacity="0.12" />
+                      <path d="M130,96 C130,89 133,84 138,84 C143,84 146,89 146,96" fill="#000" opacity="0.1" />
+                      <path d="M154,96 C154,89 157,84 162,84 C167,84 170,89 170,96" fill="#000" opacity="0.1" />
+                      <circle cx="138" cy="97" r="5.5" fill="#F59E0B" /><circle cx="138" cy="97" r="3.5" fill="#000" opacity="0.12" /><circle cx="138" cy="97" r="1.3" fill="#F59E0B" opacity="0.3" />
+                      <circle cx="162" cy="97" r="5.5" fill="#F59E0B" /><circle cx="162" cy="97" r="3.5" fill="#000" opacity="0.12" /><circle cx="162" cy="97" r="1.3" fill="#F59E0B" opacity="0.3" />
+                    </g>
+                    {/* Sporty coupe on ground (logo style) */}
+                    <g opacity="0.3">
+                      <path d="M22,96 L22,84 C22,80 25,78 30,78 L108,78 C113,78 116,80 116,84 L116,96 Z" fill="#F59E0B" />
+                      <path d="M38,78 L48,63 C50,60 53,59 56,59 L80,59 C85,59 90,61 94,64 L108,78 Z" fill="#F59E0B" opacity="0.8" />
+                      <path d="M42,77 L50,65 L72,65 L72,77 Z" fill="#000" opacity="0.1" />
+                      <path d="M76,77 L76,65 L92,66 L104,77 Z" fill="#000" opacity="0.1" />
+                      <path d="M30,96 C30,89 34,84 40,84 C46,84 50,89 50,96" fill="#000" opacity="0.08" />
+                      <path d="M86,96 C86,89 90,84 96,84 C102,84 106,89 106,96" fill="#000" opacity="0.08" />
+                      <circle cx="40" cy="97" r="6.5" fill="#F59E0B" /><circle cx="40" cy="97" r="4" fill="#000" opacity="0.12" /><circle cx="40" cy="97" r="1.5" fill="#F59E0B" opacity="0.3" />
+                      <circle cx="100" cy="97" r="6.5" fill="#F59E0B" /><circle cx="100" cy="97" r="4" fill="#000" opacity="0.12" /><circle cx="100" cy="97" r="1.5" fill="#F59E0B" opacity="0.3" />
+                    </g>
                   </svg>
                 </div>
                 <div className="absolute bottom-4 left-4 right-4 text-center">
@@ -848,7 +935,7 @@ function ContactSection() {
             <button type="submit" className="mt-6 w-full bg-black text-white py-4 rounded-xl font-semibold text-lg hover:bg-wp-orange transition-all duration-500 hover:shadow-lg hover:shadow-wp-orange/20">Send Enquiry</button>
           </form>
         )}
-        <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm">
+        <div className="mt-10 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 sm:gap-8 text-sm">
           <a href="tel:+919344201121" className="text-black/40 hover:text-wp-orange transition-colors flex items-center gap-2">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
             +91 93442 01121
@@ -872,24 +959,22 @@ function FooterLight() {
   return (
     <footer className="bg-white border-t border-black/[0.06] py-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="text-center mb-8">
+        <div className="overflow-hidden mb-8">
           <div className="flex whitespace-nowrap marquee-track">
             {Array.from({ length: 8 }).map((_, i) => (
-              <span key={i} className="text-black/[0.08] font-[Space_Grotesk] text-6xl font-bold mx-8 select-none">
+              <span key={i} className="text-black/[0.08] font-[Space_Grotesk] text-3xl sm:text-4xl md:text-6xl font-bold mx-4 sm:mx-8 select-none">
                 WE ENGINEER SPACE
               </span>
             ))}
           </div>
         </div>
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="rounded-lg overflow-hidden bg-black px-3 py-1.5">
-            <Image src="/images/wepark-logo.jpeg" alt="WePark" width={100} height={36} className="object-contain opacity-60" style={{ height: "auto" }} />
-          </div>
+        <div className="flex flex-col items-center gap-6 text-center sm:text-left sm:flex-row sm:justify-between">
+          <Image src="/images/wepark-logo-transparent.png" alt="WePark" width={120} height={44} className="object-contain opacity-50" style={{ height: "auto" }} />
           <div className="flex items-center gap-6">
             <a href="/" className="text-black/30 hover:text-wp-orange text-sm transition-colors">Dark Theme</a>
             <a href="/compare" className="text-black/30 hover:text-wp-orange text-sm transition-colors">Compare</a>
           </div>
-          <p className="text-black/20 text-sm">&copy; {new Date().getFullYear()} WePark. All rights reserved. | wepark.co.in</p>
+          <p className="text-black/20 text-xs sm:text-sm">&copy; {new Date().getFullYear()} WePark. All rights reserved.</p>
         </div>
       </div>
     </footer>
